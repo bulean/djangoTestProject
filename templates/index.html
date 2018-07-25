@@ -9,12 +9,26 @@
             width: 300px; /* Ширина списка в пикселах */
         }
     </style>
-    <script type="text/javascript" src="{{ STATIC_URL }} /static/jquery-3.3.1.min.js">
+
+    <script>
+
+
+        function csrfSafeMethod(method) {
+            // these HTTP methods do not require CSRF protection
+            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+        }
+
+
     </script>
+
+    <script type="text/javascript" src="{{ STATIC_URL }} /static/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }} /static/django-ajax.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }} /static/main.js"></script>
+
 </head>
 <body>
-{% csrf_token %}
-<select id="accounts">
+
+<select id="selectAccountsList">
     <option selected value="-1">Выберите счет для перевода</option>
 </select>
 
@@ -39,113 +53,12 @@
 <br>
 <input id="moveMoneyBtn" type="button" value="Перевести">
 
+<br>
 
-<script>
-
-    // using jQuery
-    function getCookie(name) {
-        var cookieValue = null;
-        if (document.cookie && document.cookie !== '') {
-            var cookies = document.cookie.split(';');
-            for (var i = 0; i < cookies.length; i++) {
-                var cookie = jQuery.trim(cookies[i]);
-                // Does this cookie string begin with the name we want?
-                if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                    break;
-                }
-            }
-        }
-        return cookieValue;
-    }
-
-    var csrftoken = getCookie('csrftoken');
-
-    var accountFrom;
-    var accountsTo;
-
-    $("#moveMoneyBtn").click(function () {
-
-        var dataSend = {};
-
-        var sum = $("#sum").val();
-
-        dataSend.accountFrom = accountFrom;
-        dataSend.accountsTo = accountsTo;
-        dataSend.sum = sum;
-
-        console.log(dataSend);
-
-        $.ajax({
-            url: 'moveMoney',
-            dataType: "json",
-            data: JSON.stringify(dataSend),
-            method: 'POST',
-            success: function (data, textStatus) {
-                console.log(data);
-            }
-        });
-    });
-
-    $("#accounts").click(function () {
-        accountFrom = $("#accounts option:selected").val();
-        console.log("accountFrom = " + accountFrom);
-        $("#from").text($("#accounts option:selected").text());
-    });
-
-    function getStrByUserModel(value) {
-        return value.fields.first_name + " " + value.fields.last_name + " " + "(инн = " + value.fields.inn + ")" + " (баланс = " + value.fields.balance + ")";
-    }
-
-    $("#search").click(function () {
-
-        inn = $("#inn").val();
-
-        $.ajax({
-            url: 'getAccountsByInn/' + inn,
-            dataType: "json",
-            success: function (data, textStatus) {
-                accountsTo = [];
-                $("#resSearch").text('');
-                $.each(data, function (key, value) {
-                    $("#resSearch").append($('<li>').append(getStrByUserModel(value)));
-                    accountsTo.push(value.pk);
-                });
-
-                console.log("accountsTo = " + accountsTo);
-            }
-        });
-    });
-
-    $.ajax({
-        url: 'getAccounts',             // указываем URL и
-        dataType: "json",                     // тип загружаемых данных
-        success: function (data, textStatus) { // вешаем свой обработчик на функцию success
-            console.log(data);
-
-            $.each(data, function (key, value) {
-                $('#accounts').append($('<option>', {
-                    value: value.pk,
-                    text: getStrByUserModel(value)
-                }));
-            });
-        }
-    });
-
-    function csrfSafeMethod(method) {
-        // these HTTP methods do not require CSRF protection
-        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
-    }
-
-    $.ajaxSetup({
-        beforeSend: function (xhr, settings) {
-            if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-                xhr.setRequestHeader("X-CSRFToken", csrftoken);
-            }
-        }
-    });
-
-</script>
+<h1>
+    <div id="result"></div>
+</h1>
+</div>
 
 </body>
 </html>
