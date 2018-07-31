@@ -1,6 +1,8 @@
 from django.test import TestCase
 
 # Create your tests here.
+from django.test.utils import setup_test_environment
+
 from accounts.models import Account
 from accounts.services import AccountService
 
@@ -30,3 +32,5 @@ class AccountServiceTests(TestCase):
         self.assertEquals(account.balance, 90)
         AccountService().decrease_balance_on_account(account, 0)
         self.assertEquals(account.balance, 90)
+
+
