@@ -24,8 +24,6 @@ function getAllAccounts() {
         dataType: "json",
         success: function (data, textStatus) {
 
-            console.log(data);
-
             accounts = [];
 
             $.each(data, function (key, value) {
@@ -42,8 +40,6 @@ function getAllAccounts() {
                 // заполним autocomplete списком
                 fill_select_list_accounts(accounts);
 
-                console.log("accounts = " + accounts);
-
             });
 
 
@@ -56,13 +52,19 @@ function getAllAccounts() {
 
 function printResult(text) {
     $("#result").text(text);
+
+    setTimeout(function () {
+        $('#result').text("");
+    }, 4000);
 }
 
 function clearForm() {
     getAllAccounts();
     $("#resSearch").text('');
     $("#from").text();
+    $("#inn").val("");
     $("#accountsList").val("");
+    $("#sum").val("");
     accountFrom = undefined;
     accountsTo = undefined;
 }
@@ -136,8 +138,6 @@ $(function () {
         dataSend.accountsTo = accountsTo;
         dataSend.sum = sum;
 
-        console.log(dataSend);
-
         $.ajax({
             url: 'moveMoney',
             dataType: "json",
@@ -146,7 +146,6 @@ $(function () {
             success: function (data, textStatus) {
                 printResult("Перевод осуществлен");
                 clearForm();
-                console.log(data);
             },
             error: function () {
                 printResult("Не удалось осуществить перевод")
@@ -156,6 +155,8 @@ $(function () {
 
     // поиск аккаунтов по инн
     $("#search").click(function () {
+
+        printResult("");
 
         elem = $("#inn");
 
@@ -191,8 +192,6 @@ $(function () {
                     $("#resSearch").append($('<li>').append(getStrByUserModel(transformServerAccountModel(value))));
                     accountsTo.push(Number(value.pk));
                 });
-
-                console.log("accountsTo = " + accountsTo);
             },
             error: function () {
                 printResult(textErr)
