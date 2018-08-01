@@ -16,36 +16,56 @@
         #accountsList {
             width: 500px; /* Ширина списка в пикселах */
         }
+
+        div {
+            border: 1px;
+            padding: 10px;
+            margin-right: 10px;
+        }
     </style>
 
 </head>
 <body>
 
 <div class="ui-widget">
-    <label for="accountsList">Счет для списания: </label>
-    <input id="accountsList" placeholder="Начние вводить имя/фамилию/инн">
+
+    <div>
+        <label for="accountsList">Счет для списания: </label>
+        <input id="accountsList" placeholder="Начние вводить имя/фамилию/инн">
+    </div>
+
+    <div>
+
+        <input id="inn" type="text" pattern="\d*" placeholder="инн кому переводим"/>
+        <input id="search" type="button" value="Найти пользователей по инн">
+    </div>
+
+
+    <div>
+        <input id="sum" type="text" pattern="\d*" placeholder="сумма для перевода">
+    </div>
+
+
+    <div>
+
+        <b> Кому переводим: </b>
+
+        <ul id="resSearch">
+
+        </ul>
+    </div>
+
+    <div>
+        <input id="moveMoneyBtn" type="button" value="Перевести">
+        <input id="clearForm" type="button" value="Очистить форму">
+    </div>
+
+    <div>
+        <h1>
+            <div id="result"></div>
+        </h1>
+    </div>
+
 </div>
-
-<input id="inn" type="text" pattern="\d*" placeholder="инн"/>
-<input id="search" type="button" value="Найти пользователей по инн">
-
-<input id="sum" type="number" placeholder="сумма для перевода">
-<br>
-<b> Кому переводим: </b>
-
-<ul id="resSearch">
-
-</ul>
-
-
-<input id="moveMoneyBtn" type="button" value="Перевести">
-
-<br>
-
-<h1>
-    <div id="result"></div>
-</h1>
-
-
 </body>
 </html>

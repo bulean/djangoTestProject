@@ -11,7 +11,6 @@ function transformServerAccountModel(pAccount) {
         inn: pAccount.fields.inn,
         balance: pAccount.fields.balance
     };
-
 }
 
 function getStrByUserModel(pAccount) {
@@ -95,7 +94,25 @@ $(function () {
     // после загрузки страницы подготовим список аккаунтов
     getAllAccounts();
 
-    $("#accountsList").autocomplete({});
+    $("#clearForm").click(function () {
+        clearForm()
+    });
+
+    $("#inn").bind("change keyup input click", function () {
+
+            if (this.value.match(/[^0-9]/g)) {
+                this.value = this.value.replace(/[^0-9]/g, '');
+            }
+        }
+    );
+
+    $("#sum").bind("change keyup input click", function () {
+
+            if (this.value.match(/[^0-9]/g)) {
+                this.value = this.value.replace(/[^0-9]/g, '');
+            }
+        }
+    );
 
     // перевод со счета на счета
     $("#moveMoneyBtn").click(function () {
@@ -144,6 +161,13 @@ $(function () {
             data: JSON.stringify(dataSend),
             method: 'POST',
             success: function (data, textStatus) {
+
+
+                if (data.result != 1) {
+                    printResult("Не удалось осуществить перевод")
+                    return;
+                }
+
                 printResult("Перевод осуществлен");
                 clearForm();
             },

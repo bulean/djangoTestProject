@@ -32,21 +32,27 @@ class AccountService():
         if lengthList == 0:
             return -1
 
+        # счет с которого списываем не должен быть среди тех на кого переводим
+        if idFrom in listIdsTo:
+            return -1
+
+        print("cnt = " + str(Account.objects.filter(id__in=listIdsTo).count()))
+
         # проверим что сумма положительная
         if amount <= 0:
-            return -2
+            return -1
 
         # достанем аккаунт с которого нужно списать
         try:
             accountFrom = Account.objects.get(pk=idFrom)
         except Account.DoesNotExist:
-            return -2
+            return -1
 
         if self.check_balance(accountFrom.balance, amount):
             sum_to_move = self.get_sum_to_each_account(amount, lengthList)
             self.decrease_balance_on_account(accountFrom, sum_to_move * lengthList)
         else:
-            return 0
+            return -1
 
         try:
             with transaction.atomic():
@@ -64,16 +70,11 @@ class AccountService():
 
         return True
 
-    # проверка что id с которого переводим нету в списках на кого переводим
-    def check_id_not_in_list(self):
-        return False
-
     # возвращаем сумму для каждого аккаунта, проверка деления на 0 делается перед вызовом
     def get_sum_to_each_account(self, sumToMove, cntAccounts):
         # округляем до 2-х знаком после ,
         return round(sumToMove / cntAccounts, 2)
 
+    # уеньшаем баланс на аккаунте на указаную сумму
     def decrease_balance_on_account(self, account, addSum):
-        print("addSum = " + str(addSum))
-        print("account.balance = " + str(account.balance))
         account.balance = Decimal(account.balance - Decimal(addSum)).quantize(Decimal("1.00"))

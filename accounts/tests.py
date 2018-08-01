@@ -37,4 +37,9 @@ class AccountServiceTests(TestCase):
         AccountService().decrease_balance_on_account(account, 0.01)
         self.assertEquals(account.balance, Decimal(89.99).quantize(Decimal("1.00")))
 
+    #todo
+    def test_move_money(self):
+        self.assertEquals(True,False)
+
+
 
