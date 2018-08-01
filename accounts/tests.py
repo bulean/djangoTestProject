@@ -1,3 +1,5 @@
+from _decimal import Decimal
+
 from django.test import TestCase
 
 # Create your tests here.
@@ -10,7 +12,7 @@ from accounts.services import AccountService
 class AccountServiceTests(TestCase):
 
     def setUp(self):
-        Account.objects.create(first_name="lion", last_name="roar", inn=1234567, balance=100)
+      Account.objects.create(first_name="lion", last_name="roar", inn=1234567, balance=100)
 
     def test_check_balance_on_account(self):
         # test_account = Account.objects.get(inn=1234567)
@@ -32,5 +34,7 @@ class AccountServiceTests(TestCase):
         self.assertEquals(account.balance, 90)
         AccountService().decrease_balance_on_account(account, 0)
         self.assertEquals(account.balance, 90)
+        AccountService().decrease_balance_on_account(account, 0.01)
+        self.assertEquals(account.balance, Decimal(89.99).quantize(Decimal("1.00")))
 
 

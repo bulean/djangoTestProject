@@ -1,3 +1,5 @@
+from decimal import Decimal
+
 from django.db import transaction, DatabaseError
 from django.db.models import F
 
@@ -72,4 +74,6 @@ class AccountService():
         return round(sumToMove / cntAccounts, 2)
 
     def decrease_balance_on_account(self, account, addSum):
-        account.balance = account.balance - addSum
+        print("addSum = " + str(addSum))
+        print("account.balance = " + str(account.balance))
+        account.balance = Decimal(account.balance - Decimal(addSum)).quantize(Decimal("1.00"))
