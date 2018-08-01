@@ -1,0 +1,102 @@
+[
+  {
+    "model": "accounts.account",
+    "pk": 1,
+    "fields": {
+      "first_name": "John",
+      "last_name": "Lennon",
+      "inn": 123,
+      "balance": 100
+    }
+  },
+  {
+    "model": "accounts.account",
+    "pk": 2,
+    "fields": {
+      "first_name": "Иван",
+      "last_name": "Lennon",
+      "inn": 123,
+      "balance": 1
+    }
+  },
+  {
+    "model": "accounts.account",
+    "pk": 3,
+    "fields": {
+      "first_name": "Лео",
+      "last_name": "Lennon",
+      "inn": 321,
+      "balance": 0
+    }
+  },
+  {
+    "model": "accounts.account",
+    "pk": 4,
+    "fields": {
+      "first_name": "Вася",
+      "last_name": "Lennon",
+      "inn": 456,
+      "balance": 5
+    }
+  },
+  {
+    "model": "accounts.account",
+    "pk": 5,
+    "fields": {
+      "first_name": "Петя",
+      "last_name": "Lennon",
+      "inn": 789,
+      "balance": 3
+    }
+  },
+  {
+    "model": "accounts.account",
+    "pk": 6,
+    "fields": {
+      "first_name": "Сережа",
+      "last_name": "Lennon",
+      "inn": 1928282,
+      "balance": 33
+    }
+  },
+  {
+    "model": "accounts.account",
+    "pk": 7,
+    "fields": {
+      "first_name": "Дима",
+      "last_name": "Lennon",
+      "inn": 123,
+      "balance": 45
+    }
+  },
+  {
+    "model": "accounts.account",
+    "pk": 8,
+    "fields": {
+      "first_name": "Павел",
+      "last_name": "Lennon",
+      "inn": 343333,
+      "balance": 50
+    }
+  },
+  {
+    "model": "accounts.account",
+    "pk": 9,
+    "fields": {
+      "first_name": "Джо",
+      "last_name": "Lennon",
+      "inn": 343333,
+      "balance": 99
+    }
+  },
+  {
+    "model": "accounts.account",
+    "pk": 10,
+    "fields": {
+      "first_name": "Коля",
+      "last_name": "Lennon",
+      "inn": 343333,
+      "balance": 5
+    }
+  }
+]
